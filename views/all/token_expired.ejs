@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token Expired</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .expired-container {
+            animation: fadeIn 1s ease-out;
+            min-height: 100vh;
+        }
+
+        .heading-color {
+            color: #67a617;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem; /* Reduced from default display-4 */
+        }
+
+        .custom-btn {
+            background-color: #d8363a;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem; /* Added font size */
+        }
+
+        .custom-resend-btn {
+            background-color: #67a617;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem; /* Added font size */
+        }
+
+        .custom-btn:hover {
+            background-color: #c12d30;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .custom-resend-btn:hover {
+            background-color: #5a8e14;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .vector-animation {
+            animation: bounce 3s infinite;
+            max-width: 300px;
+            margin: 2rem auto;
+        }
+
+        .message-box {
+            background: rgba(255,255,255,0.9);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Added smaller text size for paragraph */
+        .info-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container expired-container d-flex align-items-center justify-content-center">
+        <div class="row">
+            <div class="col-12 text-center">
+                <!-- Vector Image -->
+                <svg class="vector-animation" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#ffd700" d="M256 48C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48zm0 374.4c-91.8 0-166.4-74.6-166.4-166.4S164.2 89.6 256 89.6 422.4 164.2 422.4 256 347.8 422.4 256 422.4zm24-262.4h-48v112h48V160zm0 144h-48v48h48v-48z"/>
+                </svg>
+
+                <div class="message-box">
+                    <h1 class="heading-color h1 mb-4">Link Expired!</h1> <!-- Changed from display-4 to h1 -->
+                    <p class="info-text text-muted mb-4"> <!-- Changed from lead to custom class -->
+                        Oops! The password reset link has expired.<br>
+                        Please request a new password reset link to continue.
+                    </p>
+
+                    <div class="d-flex gap-3 justify-content-center">
+                        <a href="/" class="btn custom-btn">
+                            Return Home
+                        </a>
+                        <a href="/forgot-password" class="btn custom-resend-btn">
+                            Resend Link
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

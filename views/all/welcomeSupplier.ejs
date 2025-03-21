@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban Harvest - Supplier Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/supplier_index.css">
+    <style>
+        
+    </style>
+</head>
+<body>
+ 
+
+    <main>
+        <section class="uh-hero">
+            <div class="container">
+                <div class="row align-items-center mb-5">
+                    <div class="col-md-7">
+                        <h2 class="mb-4">Fresh Produce Suppliers Network</h2>
+                        <p class="lead mb-4">Connecting local farmers with urban communities</p>
+                        <a href="/supplier/<%= username %>" class="uh-stock-btn uh-pulse" style="text-decoration: none;">View Current Stock</a>
+                    </div>
+                    <div class="col-md-5 text-center">
+                        <svg class="uh-supermarket-img" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <!-- SVG graphic remains same -->
+                            <rect x="10" y="20" width="80" height="60" fill="#97BC62"/>
+                            <rect x="20" y="30" width="20" height="20" fill="#2C5F2D"/>
+                            <rect x="50" y="30" width="20" height="20" fill="#2C5F2D"/>
+                            <rect x="35" y="60" width="30" height="20" fill="#FFE77A"/>
+                            <path d="M30,80 L70,80 L75,90 L25,90 Z" fill="#2C5F2D"/>
+                            <path d="M45,45 L55,45 L55,55 L45,55 Z" fill="#FFE77A"/>
+                            <path d="M15,20 L25,10 L75,10 L85,20" fill="#97BC62"/>
+                            <path d="M40,15 L45,5 L55,5 L60,15" fill="#FFE77A"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Features section moved inside hero -->
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="uh-feature-card p-4">
+                            <h3>Local Suppliers</h3>
+                            <p>Connect with nearby farmers and producers</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="uh-feature-card p-4">
+                            <h3>Real-Time Inventory</h3>
+                            <p>Track stock levels instantly</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="uh-feature-card p-4">
+                            <h3>Sustainable Sourcing</h3>
+                            <p>Eco-friendly supply chain management</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<style>
+    #cartButton {
+        position: fixed;
+        top: 30px;
+        right: 30px;
+        z-index: 1001;
+        padding: 18px 24px;
+        border-radius: 50px;
+        background: linear-gradient(135deg, #ff512f 0%, #DD2476 100%);
+        border: none;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+    #cartButton:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        background: linear-gradient(135deg, #DD2476 0%, #ff512f 100%);
+    }
+
+    #cartButton:active {
+        transform: translateY(0);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #cartButton i {
+        font-size: 1.4rem;
+        transition: transform 0.2s ease;
+    }
+
+    #cartButton:hover i {
+        transform: scale(1.1);
+    }
+
+    .cart-badge {
+        background-color: #528412;
+        color: white;
+        border-radius: 50px;
+        padding: 4px 10px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        min-width: 28px;
+        text-align: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .cart-sidebar {
+        position: fixed;
+        top: 72px;
+        right: -350px;
+        width: 350px;
+        height: calc(100% - 80px);
+        background-color: #fff;
+        box-shadow: -2px 0 15px rgba(0, 0, 0, 0.1);
+        transition: right 0.3s ease-in-out;
+        z-index: 1000;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .cart-sidebar.active {
+        right: 0;
+    }
+
+    .cart-header {
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+    }
+
+    .cart-items {
+        flex: 1;
+        overflow-y: auto;
+        margin-bottom: 20px;
+    }
+
+    .product-image {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .quantity-btn {
+        width: 30px;
+        height: 30px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content:flex-end;
+    }
+
+    .total-section {
+        border-top: 1px solid #ddd;
+        padding-top: 15px;
+    }
+
+    .checkout-btn{
+        background-image: linear-gradient(to right, #ff522f, #dd2477);
+        color: #fff;
+        cursor: pointer;
+    }
+    .checkout-btn:hover{
+        background-image: linear-gradient(to right, #DD2476, #ff512f);
+        color: #fff;
+        transition: background-color 2s ease;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.11), 0 0 8px rgba(0, 0, 0, 0.69);
+    }
+
+    .remove-item {
+    background: linear-gradient(135deg, #ff6969, #ff4757);
+    color: white !important;
+    border-radius: 8px;
+    padding: 8px 16px;
+    transition: all 0.2s ease;
+    border: none;
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.remove-item:hover {
+    background: linear-gradient(135deg, #ff4757, #ff6b81);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(255, 71, 87, 0.3);
+}
+
+.remove-item:active {
+    transform: translateY(0);
+}
+
+.remove-item .bi { 
+        font-size: 1rem;
+        vertical-align: middle;
+        padding-right: 2px;
+    }
+
+.quantity-minus, .quantity-plus{
+    color: #fff;
+    background-color:#ff512f;
+    border: none;
+}
+
+</style>
+</head>
+
+<body>
+<button id="cartButton" class="btn" style="top: 80px;">
+    <i class="bi bi-cart-check-fill"></i>
+    <span class="cart-badge animate__animated animate__pulse animate__infinite">0</span>
+</button>
+
+<div class="cart-sidebar">
+    <div class="cart-header">
+        <h3><b>Your Cart</b></h3>
+    </div>
+    <div class="cart-items">
+        <!-- Item 1 -->
+         <% if (cart  && cart.product.length>0) { %>
+            <% for( let p of cart.product ) { %>
+                <div class="card mb-3 cardCart" data-price="<%= p.Details.price %>">
+                    <div class="card-body">
+                        <div class="d-flex gap-3">
+                            <img src="<%= p.Details.image[0].url%>" class="product-image" alt="Product 1">
+                            <div class="flex-grow-1">
+                                <h5 class="card-title"><%= p.Details.name %></h5>
+                                <p class="card-text price">Rs. <%= p.Details.price %></p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group quantity-btn">
+                                        <button class="btn btn-sm btn-secondary quantity-minus">-</button>
+                                        <!-- <span class="px-3 quantity">1</span> -->
+                                         <input type="number" name="quantity" id="quantity" class="quantity p-0" value="1" style="width:30px;">
+                                        <button class="btn btn-sm btn-secondary quantity-plus">+</button>
+                                    </div>
+                                    <% if (currentUser) { %>
+                                        <form action="/cart/<%= cart.user %>/delete/<%= p.Details._id %>?user=yes" method="post">
+                                            <button class="btn btn-danger btn-sm"><i class="bi bi-trash3-fill"></i>U Remove</button>
+                                        </form>
+                                   
+                                   <% } else { %>
+                                    
+                                    <form action="/cart/<%= cart.sessionId %>/delete/<%= p.Details._id %>?session=yes" method="post">
+                                        <button class="btn btn-danger btn-sm"><i class="bi bi-trash3-fill"></i>S Remove</button>
+                                    </form>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             <% } %>
+         <% } %>
+     
+
+
+
+    </div>
+
+    <!-- Total Section -->
+    <div class="total-section">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5>Total:</h5>
+            <h5 id="totalAmount">Rs. 0.00</h5>
+        </div>
+        <button class="btn w-100 mt-2 checkout-btn">Checkout</button>
+    </div>
+</div>
+<script>
+    const cartButton = document.getElementById('cartButton');
+    const cartSidebar = document.querySelector('.cart-sidebar');
+
+    // Toggle cart sidebar
+    cartButton.addEventListener('click', () => {
+        cartSidebar.classList.toggle('active');
+        calculateTotal();
+        updateCartBadge();
+    });
+
+    // Quantity functionality
+    document.querySelectorAll('.cart-items').forEach(container => {
+        container.addEventListener('click', (e) => {
+            const item = e.target.closest('.cardCart');
+            const quantityElement = item?.querySelector('.quantity');
+            
+            if (e.target.classList.contains('quantity-plus')) {
+                quantityElement.value = parseInt(quantityElement.value) + 1;
+            }
+            if (e.target.classList.contains('quantity-minus')) {
+                const current = parseInt(quantityElement.value);
+                if (current > 1) quantityElement.value = current - 1;
+            }
+            if (e.target.classList.contains('remove-item')) {
+                item.remove();
+            }
+            calculateTotal();
+            updateCartBadge();
+        });
+    });
+
+    // Calculation of total price
+    function calculateTotal() {
+        let total = 0;
+        let totalItems = 0;
+        document.querySelectorAll('.cardCart').forEach(item => {
+            const price = parseFloat(item.dataset.price);
+            const quantity = parseInt(item.querySelector('.quantity').value);
+            total += price * quantity;
+            totalItems += quantity;
+        });
+        document.getElementById('totalAmount').textContent =` Rs. ${total.toFixed(2)}`;
+        return totalItems;
+    }
+
+    // Update cart badge
+    function updateCartBadge() {
+        const totalItems = calculateTotal();
+        document.querySelector('.cart-badge').textContent = totalItems;
+    }
+
+    // Initial calculations
+    updateCartBadge();
+
+</script>
+</body>

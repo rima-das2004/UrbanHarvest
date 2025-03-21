@@ -1,0 +1,216 @@
+<% layout('layouts/boilerplate') -%>
+<body class="sp-main p-0 m-0">
+    <div class="sp-container mt-5">
+        <!-- Filters Section -->
+        <section class="sp-filters-section">
+            <!-- Category Filter -->
+            <div class="sp-filter-group">
+                <% if (categorySelectionUser) { %>
+                    <select class="sp-category-select categoryUserSelect" id="categoryFilter" onclick="retriveSelect()">
+                        <option value="all">All Categories</option>
+                        <% if (categorySelectionUser) { %>
+                            <option  selected value="<%= categorySelectionUser %>"><%= categorySelectionUser %></option>
+                        <% } %>
+                        <% for( let category of categorySelection ) { %>   
+                            <option value="<%= category %>"><%= category %></option>
+                        <% } %>                 
+                    </select>
+                <% } %>
+                <% if (!categorySelectionUser) { %>
+                    <select class="sp-category-select categoryUserSelect" id="categoryFilter">
+                        <option value="all">All Categories</option>
+                        
+                        <% for( let category of categorySelection ) { %>   
+                            <option value="<%= category %>"><%= category %></option>
+                        <% } %>                 
+                    </select>
+                <% } %>
+            </div>
+
+            <!-- Price Filter -->
+            <div class="sp-filter-group">
+                <h3 class="sp-filter-title">Price Range</h3>
+                <input type="range" class="sp-price-range" id="priceFilter" min="0" max="<%=greaterPrice %>" value="<%=greaterPrice %>">
+                <div class="sp-price-value">Max: Rs.<span id="priceValue"><%=greaterPrice %></span></div>
+            </div>
+
+            <!-- Brand Filter -->
+            <div class="sp-filter-group">
+                <h3 class="sp-filter-title">Brand</h3>
+                <label class="sp-checkbox-container">
+                    <input type="checkbox" class="sp-checkbox-input" value="FreshFarm">
+                    <span class="sp-checkbox-checkmark"></span>
+                    FreshFarm
+                </label>
+                <label class="sp-checkbox-container">
+                    <input type="checkbox" class="sp-checkbox-input" value="OrganicChoice">
+                    <span class="sp-checkbox-checkmark"></span>
+                    OrganicChoice
+                </label>
+                <label class="sp-checkbox-container">
+                    <input type="checkbox" class="sp-checkbox-input" value="DailyGood">
+                    <span class="sp-checkbox-checkmark"></span>
+                    DailyGood
+                </label>
+            </div>
+
+            <!-- Rating Filter -->
+            <div class="sp-filter-group">
+                <h3 class="sp-filter-title">Rating</h3>
+                <label class="sp-checkbox-container">
+                    <input type="checkbox" class="sp-checkbox-input" value="4">
+                    <span class="sp-checkbox-checkmark"></span>
+                    ★★★★☆ & Up
+                </label>
+                <label class="sp-checkbox-container">
+                    <input type="checkbox" class="sp-checkbox-input" value="3">
+                    <span class="sp-checkbox-checkmark"></span>
+                    ★★★☆☆ & Up
+                </label>
+                <label class="sp-checkbox-container">
+                    <input type="checkbox" class="sp-checkbox-input" value="2">
+                    <span class="sp-checkbox-checkmark"></span>
+                    ★★☆☆☆ & Up
+                </label>
+            </div>
+        </section>
+
+        <!-- Products Grid -->
+      
+            <% if (categorySelectionUser) { %>
+                <div class="row beforeClick w-100" style="display: block;">
+                    <section class="sp-products-grid w-100">
+                    <% for( let product of products) { %>
+                        <% if (categorySelectionUser && categorySelectionUser==product.category) { %>
+                      
+                                <article class="sp-product-card" id="sp-product-card" data-price="<%= product.price %>" data-brand="FreshFarm" data-rating="4" data-category="<%= product.category %>" style="width:20rem;height: 25rem; float:left!important; margin-right:10px">
+                                    <a href="/product/details/<%= product._id %>"> <img src="<%= product.image[0].url%>" alt="p-img" class="sp-product-image"></a>
+                                     <div class="sp-product-info">
+                                         <h3 class="sp-product-title"><%= product.name %></h3>
+                                         <div class="sp-product-price">Price: ₹<%= product.price %> per <%= product.unit %></div>
+                                         <div class="sp-product-rating">★★★★☆</div>
+                                         <form action="/cart/<%= product._id %>/add" method="post">
+                                            <button type="submit" class="sp-add-to-cart">Add to Cart</button>
+                                         </form>
+                                         
+                                     </div>
+                                 </article>
+                    
+                           
+                           
+                        <% } %>
+                    </section>
+                     <% } %>
+                </div>
+
+                
+            <div class="row afterClick w-100" style="display: none;">
+                <section class="sp-products-grid w-100">
+                <% for( let product of products) { %>
+                   
+                        <article class="sp-product-card" id="sp-product-card" data-price="<%= product.price %>" data-brand="FreshFarm" data-rating="4" data-category="<%= product.category %>" style="height: 25rem;">
+                            <a href="/product/details/<%= product._id %>"> <img src="<%= product.image[0].url%>" alt="p-img" class="sp-product-image"></a>
+                             <div class="sp-product-info">
+                                 <h3 class="sp-product-title"><%= product.name %></h3>
+                                 <div class="sp-product-price">Price: ₹<%= product.price %> per <%= product.unit %></div>
+                                 <div class="sp-product-rating">★★★★☆</div>
+                                 <form action="/cart/<%= product._id %>/add" method="post">
+                                    <button type="submit" class="sp-add-to-cart">Add to Cart</button>
+                                 </form>
+                             </div>
+                         </article>
+                 
+
+                 <% } %>
+                </section>
+            </div>
+            <% } %>
+         
+            <!-- Dairy Products -->
+            <% if (!categorySelectionUser) { %>
+             <div class="row nonCategory w-100">
+                <section class="sp-products-grid w-100">
+                    <% for( let product of products) { %>
+                        
+                            <article id="sp-product-card" class="sp-product-card" data-price="<%= product.price %>" data-brand="FreshFarm" data-rating="4" data-category="<%= product.category %>" style="height: 25rem; float:left">
+                                <a href="/product/details/<%= product._id %>"> <img src="<%= product.image[0].url%>" alt="p-img" class="sp-product-image"></a>
+                                 <div class="sp-product-info">
+                                     <h3 class="sp-product-title"><%= product.name %></h3>
+                                     <div class="sp-product-price">Price: ₹<%= product.price %> per <%= product.unit %></div>
+                                     <div class="sp-product-rating">★★★★☆</div>
+                                     <form action="/cart/<%= product._id %>/add" method="post">
+                                        <button type="submit" class="sp-add-to-cart">Add to Cart</button>
+                                     </form>
+                                 </div>
+                             </article>
+
+                 <% } %>
+                </section>
+                   
+             </div>
+             <% } %>
+
+            
+               
+     
+    </div>
+
+    <script>
+        const priceFilter = document.getElementById('priceFilter');
+        const priceValue = document.getElementById('priceValue');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const checkboxes = document.querySelectorAll('.sp-checkbox-input');
+        const productCards = document.querySelectorAll('.sp-product-card');
+        const select=document.querySelector(".categoryUserSelect");
+        function retriveSelect(){
+            const beforeClick=document.querySelector(".beforeClick");
+            const afterClick=document.querySelector(".afterClick");
+
+            beforeClick.style.display="none";
+            afterClick.style.display="block";
+
+        }
+        priceFilter.addEventListener('input', function() {
+            priceValue.textContent = priceFilter.value;
+            filterProducts();
+        });
+
+        categoryFilter.addEventListener('change', filterProducts);
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', filterProducts);
+        });
+
+        function filterProducts() {
+            const selectedCategory = categoryFilter.value;
+            const maxPrice = parseInt(priceFilter.value);
+            const selectedBrands = Array.from(checkboxes)
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.value);
+            const selectedRatings = Array.from(checkboxes)
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => parseInt(checkbox.value));
+
+            productCards.forEach(card => {
+                const cardPrice = parseInt(card.getAttribute('data-price'));
+                const cardBrand = card.getAttribute('data-brand');
+                const cardRating = parseInt(card.getAttribute('data-rating'));
+                const cardCategory = card.getAttribute('data-category');
+
+                const isPriceValid = cardPrice <= maxPrice;
+                const isBrandValid = selectedBrands.length === 0 || selectedBrands.includes(cardBrand);
+                const isRatingValid = selectedRatings.length === 0 || selectedRatings.includes(cardRating);
+                const isCategoryValid = selectedCategory === 'all' || selectedCategory === cardCategory;
+
+                if (isPriceValid && isBrandValid && isRatingValid && isCategoryValid) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                    
+            
+                   
+                }
+            });
+        }
+    </script>
+</body>

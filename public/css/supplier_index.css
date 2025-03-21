@@ -1,0 +1,97 @@
+.uh-header {
+    background: #2c5f2d;
+    padding: 1rem 0;
+    border-bottom: 3px solid #ffe77aff;
+    height: 80px !important;
+}
+
+.uh-logo {
+    font-family: 'Arial Rounded MT Bold', sans-serif;
+    color: #ffe77aff !important;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    animation: fadeInSlide 1.5s ease-out;
+}
+
+.uh-hero {
+    background: #f5fff5;
+    padding: 4rem 0;
+    border-bottom: 2px solid #2c5f2d;
+}
+
+.uh-supermarket-img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    filter: drop-shadow(0 0 10px rgba(44,95,45,0.2));
+    animation: float 3s ease-in-out infinite;
+    margin: 0 auto;
+}
+
+.uh-feature-card {
+    background: #fff;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+    border: 1px solid #2c5f2d;
+}
+
+.uh-feature-card:hover {
+    transform: translateY(-10px);
+}
+
+.uh-stock-btn {
+    background: #2c5f2d;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 25px;
+    border: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.uh-stock-btn:hover {
+    background: #1e401f;
+    transform: scale(1.05);
+}
+
+.uh-stock-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255,255,255,0.1);
+    transform: rotate(45deg);
+    transition: all 0.5s ease;
+}
+
+.uh-stock-btn:hover::after {
+    left: 120%;
+}
+
+@keyframes fadeInSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.uh-pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}

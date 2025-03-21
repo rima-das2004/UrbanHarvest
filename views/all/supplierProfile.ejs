@@ -1,0 +1,106 @@
+<% layout('layouts/supplierBoilerplate') -%>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <!-- Left Side -->
+            <!-- Left Side -->
+<div class="col-md-4 mb-4 animate__animated animate__fadeInLeft">
+    <div class="card profile-card p-4 h-100">
+        <!-- Profile Picture Section -->
+        <div class="text-center mb-4">
+            <div class="profile-pic-wrapper vector-placeholder">
+                <img src="<%= image.url %>" 
+                     class="profile-vector-img" 
+                     alt="Profile Interface" style="width:100%;">
+            </div>
+        </div>
+
+
+        <!-- Profile section with camera -->
+
+
+        <!-- Edit Button -->
+        <div class="d-grid mb-4">
+            <form action="/updateAccount/<%= _id %>" method="get">
+                <button type="submit" class="btn btn-edit animate__animated animate__pulse animate__infinite" style="width: 100%;">
+                    <i class="fas fa-edit me-2"></i>Edit Profile
+                </button>
+            </form>
+          
+        </div>
+
+        <!-- Profile Section Vector Graphic -->
+        <div class="profile-vector text-center mt-auto">
+            <img src="https://img.freepik.com/free-vector/user-profile-concept-illustration_114360-2580.jpg" 
+                 class="img-fluid profile-vector-illustration" 
+                 alt="Profile Section Illustration">
+            <div class="vector-caption mt-3">
+                <h5 class="text-muted">Personal Profile</h5>
+                <p class="text-muted small">Edit your personal details and preferences</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- Right Side Content -->
+            <div class="col-md-7 animate__animated animate__fadeInRight">
+                <div class="card profile-card h-100 p-4">
+                    <div class="row animate-fade-in">
+                        <div class="col-md-12">
+                            <h2 class="mb-0"><%= firstname %> <%= lastname %></h2>
+                            <p class="text-muted"><%= role %></p>
+                            <hr>
+                            
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5 class="mb-4">Contact Info</h5>
+                                    <div class="contact-field">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-user contact-icon"></i>
+                                            <span class="text-muted">Username: <%= username %></span>
+                                        </div>
+                                        <hr class="contact-hr">
+                                    </div>
+                                    
+                                    <div class="contact-field">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-envelope contact-icon"></i>
+                                            <span class="text-muted">Email: <%= email %></span>
+                                        </div>
+                                        <hr class="contact-hr">
+                                    </div>
+                                    
+                                    <div class="contact-field">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-phone contact-icon"></i>
+                                            <span class="text-muted">Phone: <%= phone %></span>
+                                        </div>
+                                        <hr class="contact-hr">
+                                    </div>
+                                    
+                                    <div class="contact-field">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-map-marker-alt contact-icon"></i>
+                                            <span class="text-muted">Address: <%= address %></span>
+                                        </div>
+                                        <hr class="contact-hr">
+                                    </div>
+                                    <div class="contact-field">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-map-marker-alt contact-icon"></i>
+                                            <span class="text-muted">Country: <%= country %></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+        
+                         
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> 
+</body>

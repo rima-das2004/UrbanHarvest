@@ -1,0 +1,148 @@
+/* profile css */
+.profile-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.profile-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.profile-pic-wrapper {
+    position: relative;
+    width: 150px;
+    margin: 0 auto;
+}
+.profile-pic-upload {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 50%;
+    padding: 5px;
+}
+.upload-input {
+    display: none;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+    animation: fadeIn 0.8s ease-out;
+}
+
+
+.profile-pic-wrapper {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+#profile-pic {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+/* camera */
+.profile-pic-upload {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    background: #ffffff;
+    border-radius: 50%;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.profile-pic-upload:hover {
+    transform: scale(1.1);
+    background: #67a617;
+}
+
+.profile-pic-upload:hover i {
+    color: white !important;
+}
+
+.profile-pic-wrapper:hover #profile-pic {
+    transform: scale(1.05);
+}
+
+.vector-placeholder {
+    background: #f0f2f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vector-placeholder svg {
+    width: 70%;
+    height: 70%;
+    opacity: 0.7;
+}
+
+.btn-edit {
+    background-color: #67a617;
+    border-color: #67a617;
+    color: white !important;
+    transition: all 0.3s ease;
+}
+
+.btn-edit:hover {
+    background-color: #5a8e14;
+    border-color: #5a8e14;
+}
+
+.contact-icon {
+    color: #d8363a;
+    transition: all 0.3s ease;
+    width: 20px;
+    margin-right: 12px;
+}
+
+.contact-icon:hover {
+    color: #b22d30;
+    transform: scale(1.2);
+}
+
+.contact-field {
+    margin: 1.2rem 0;
+}
+
+.contact-hr {
+    margin: 1.5rem 0;
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+/* Vector img */
+
+.profile-vector-illustration {
+    max-width: 100%;
+    height: 250px;
+    object-fit: contain;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: drop-shadow(0 5px 15px rgba(103, 166, 23, 0.1));
+}
+
+.profile-vector-illustration:hover {
+    transform: translateY(-8px) rotateZ(-2deg);
+    filter: drop-shadow(0 10px 20px rgba(103, 166, 23, 0.15));
+}
+
+.vector-caption {
+    border-left: 3px solid #67a617;
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    transition: all 0.3s ease;
+}
+
+.vector-caption:hover {
+    border-left-width: 5px;
+    padding-left: 1.2rem;
+}

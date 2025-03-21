@@ -1,0 +1,92 @@
+    <!-- Navigation Bar -->
+    
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary shadow">
+        <div class="container-fluid navdiv" style="max-width: 2000px;">
+          <a class="navbar-brand" href="#" style="padding: 0rem 0rem 1.2rem 0rem;"><img src="/img/logo.png" alt="Bootstrap">
+        </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/product">Home</a>
+              </li>
+              <li class="nav-item">
+                <a id="product-section-btn" class="nav-link" style="position: relative; top:1px;">Product Section</a>
+
+                <div id="product-modal" class="modal" style="z-index: 100;">
+                  <div class="modal-content">
+                      <div class="card-title">
+                          <p class="title">Select category</p>
+                          <span class="close" style="display: block;"><i class="bi bi-x-circle"></i></span>
+                      </div>
+                      <div class="product-card">
+                          <div class="products-grid">
+                              <div class="box"><a href="/product/all?categorySelectionUser=Dairy"><img src="/img/milk-carton.png" alt="Milk Carton"></a><p>Dairy Products</p></div>
+                              <div class="box"><a href="/product/all?categorySelectionUser=Eggs"><img src="/img/egg.png" alt="Eggs"></a><p>Eggs</p></div>
+                              <div class="box"><a href="/product/all?categorySelectionUser=Vegetables"><img src="/img/broccoli.png" alt="Vegetables"></a><p>Vegetables</p></div>
+                              <div class="box"><a href="/product/all?categorySelectionUser=Fruits"><img src="/img/berry.png" alt="Fruits"></a><p>Fresh Fruits</p></div>
+                              <div class="box"><a href="/product/all?categorySelectionUser=Frozen"><img src="/img/fish.png" alt="Frozen Product"></a><p>Frozen Items</p></div>
+                              <div class="box"><a href="/product/all?categorySelectionUser=Grocery"><img src="/img/grocery.png" alt="Grocery"></a><p>Grocery Items</p></div>
+                          </div>
+                      </div>
+                      <div class="more-categories">
+                          <button class="category-btn"><i class="bi bi-grid"></i> More Categories</button>
+                      </div>
+                  </div>
+              </div>
+          
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Featured Products</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Blog</a>
+              </li>
+              
+              
+              <li class="nav-item">
+                <a class="nav-link" href="#">Contact Us</a>
+              </li>
+            </ul>
+            <form class="d-flex search" role="search">
+              <input class="form-control me-4" type="search" placeholder="Search Item" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <li class="nav-item dropdown" style="list-style-type: none;">
+              <a class="nav-link dropdown-toggle d-flex justify-content-center align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <% if (currentUser) { %>
+                 <div class="img" style="width:45px; height:45px; border-radius:50%; overflow:hidden;">
+                  <img src="<%= currentUser.image.url %>" alt="profile picture" style="width: 100%;">
+                 </div>
+                <% } %>
+                <% if (!currentUser) { %>
+                  <i class="fa fa-user d-flex align-items-center justify-content-center" style="width: 30px; height:30px; border-radius:50%; text-align:center; color: #636363; border:1px solid #8f8f8f;"></i>
+                <% } %>
+                
+              </a>
+              <ul class="dropdown-menu acc-drop" style="z-index: 1002;">
+                
+                <% if (currentUser) { %>
+                  <li><a class="dropdown-item" href="/accountDetails/<%= currentUser._id %>">Account</a></li>
+                  <li><a class="dropdown-item" href="/changePassword">Change Password</a></li>
+                  <li><a class="dropdown-item" href="/logout">Log Out</a></li>
+                 
+                <% } %>
+                <% if (!currentUser) { %>
+                  <li><a class="dropdown-item" href="/loginRole">Sign in</a></li>
+                  <li><a class="dropdown-item" href="/role">Sign Up</a></li>
+                <% } %>
+                
+               
+                
+              </ul>
+            </li>
+            
+            
+          </div>
+        </div>
+       
+      </nav>

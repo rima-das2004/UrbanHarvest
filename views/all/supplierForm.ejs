@@ -1,0 +1,230 @@
+
+<% layout('layouts/supplierBoilerplate') -%>
+<body class="bg-light">
+    <div class="container mt-5 mb-5">
+        <div class="card shadow">
+            <div class="card-header" style="background-color: #d8363a; color: #fff;">
+                <h3 class="mb-0">Inventory Replenishment Form</h3>
+            </div>
+            <div class="card-body">
+                <form action="/supplier/<%= username %>/addProduct" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="contactPerson" class="form-label">Supplier's Firtsname <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="contactPerson" name="supplier[firstname]" required value="<%= firstname %> <%= lastname %>" disabled>
+                            <div class="invalid-feedback">
+                                Please enter contact person first name.
+                            </div>
+                        </div>
+
+                     
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" id="email" name="supplier[email]" value="<%= email %>" required disabled>
+                            <div class="invalid-feedback">
+                                Please enter a valid email address.
+                            </div>
+                        </div>
+
+
+                        <div class="col-12">
+                            <label for="address" class="form-label">Address <span class="text-danger">*</span></label>
+                            <textarea type="text" class="form-control" id="address" rows="3" name="supplier[address]" required disabled><%= address %> ,<%= country %></textarea>
+                            <div class="invalid-feedback">
+                                Please enter company address.
+                            </div>
+                        </div>
+
+                        <!-- Product Categories -->
+                        <div class="col-md-6">
+                            
+                            <label for="productCategories" class="form-label">Product Categories <span class="text-danger">*</span></label>
+                            <select class="form-select" name="product[category]" id="productCategories" multiple required>
+                                <option value="Grocery" name="product[category]">Grocery</option>
+                                <option value="Vegetables" name="product[category]">Vegetables</option>
+                                <option value="Fruits" name="product[category]">Fruits</option>
+                                <option value="Dairy" name="product[category]">Dairy</option>
+                                <option value="Eggs" name="product[category]">Eggs</option>
+                                <option value="Frozen">Frozen</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select at least one product category.
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="website" class="form-label">Product Name<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="website" name="product[name]">
+                        </div>
+
+                        <!-- Optional Fields -->
+                        <div class="col-md-6">
+                            
+                            <label for="productCategories" class="form-label">Product Unit <span class="text-danger">*</span></label>
+                            <select class="form-select" id="productCategories" multiple required name="product[unit]">
+                                <option value="kilogram" name="product[unit]">kilogram</option>
+                                <option value="gram" name="product[unit]">gram</option>
+                                <option value="piece" name="product[unit]">piece</option>
+                                <option value="litere" name="product[unit]">litere</option>
+                               
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select at least one product unit.
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="additionalInfo" class="form-label">Quantity<span class="text-danger">*</span></label>
+                            <input class="form-control" id="additionalInfo" rows="3" type="number" name="product[quantity]">
+                        </div>
+
+
+                        <div class="col-12">
+                            <label for="additionalInfo" class="form-label">
+                                Price per unit<span class="text-danger">*</span>
+                            </label>
+                            <input class="form-control" id="additionalInfo" rows="3" type="number" name="product[price]">
+                        </div>
+
+                       
+
+                        <div class="col-12">
+                            <label for="additionalInfo" class="form-label">Information<span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="additionalInfo" rows="3" type="text" name="product[info]"></textarea>
+                        </div>
+                       
+                         
+                        </div> 
+                        <!-- Submit Button -->
+                        <div class="col-12">
+                            <label for="additionalInfo" class="form-label">Images<span class="text-danger">*</span></label>
+                            <input type="file" name="product[image]" id="images" multiple accept="image/*">
+                        </div>
+                        <div class="col-12">
+                            <button  style="padding:20px 15px;" data-mdb-ripple-init class="btn btn-light btn-block fa-lg gradient-custom-2 mb-3" type="submit">Submit Form</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Validation -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Form validation
+        (() => {
+            'use strict'
+
+            // Fetch the form to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+
+    <!-- <script>
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const browseBtn = document.getElementById('browseBtn');
+        const previewContainer = document.getElementById('previewContainer');
+        const uploadAllBtn = document.getElementById('uploadAllBtn');
+    
+        // File selection handlers
+        browseBtn.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('click', () => fileInput.click());
+    
+        // Drag & drop handlers
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+    
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+    
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+    
+        // File input change handler
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+    
+        // Handle uploaded files
+        function handleFiles(files) {
+            Array.from(files).forEach(file => {
+                if (!file.type.startsWith('image/')) return;
+                
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    createThumbnail(file, e.target.result);
+                };
+                reader.readAsDataURL(file);
+            });
+            uploadAllBtn.style.display = 'block';
+        }
+    
+        // Create thumbnail preview
+        function createThumbnail(file, dataUrl) {
+            const card = document.createElement('div');
+            card.className = 'thumbnail-card';
+            
+            const img = document.createElement('img');
+            img.className = 'thumbnail-img';
+            img.src = dataUrl;
+            
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'remove-btn';
+            removeBtn.innerHTML = '×';
+            removeBtn.onclick = () => card.remove();
+            
+            card.appendChild(img);
+            card.appendChild(removeBtn);
+            previewContainer.appendChild(card);
+        }
+    
+        // Upload all images
+        uploadAllBtn.addEventListener('click', async () => {
+            const cards = previewContainer.querySelectorAll('.thumbnail-card');
+            if (cards.length === 0) return;
+            
+            const formData = new FormData();
+            Array.from(fileInput.files).forEach(file => {
+                formData.append('images', file);
+            });
+    
+            try {
+                // Replace with your upload endpoint
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    alert('Upload successful!');
+                    previewContainer.innerHTML = '';
+                    fileInput.value = '';
+                    uploadAllBtn.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Upload error:', error);
+                alert('Upload failed!');
+            }
+        });
+    </script> -->
+
+</body>

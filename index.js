@@ -25,6 +25,7 @@ const userRoute=require("./routes/user.js");
 const supplierRoute=require("./routes/supplier.js");
 const productRoute=require("./routes/product.js");
 const cartRoute=require("./routes/cart.js");
+const checkoutRoute=require("./routes/checkout.js");
 const User=require("./models/users.js")
 const Cart=require("./models/cartSchema.js")
 const Product=require("./models/productSchema.js")
@@ -88,7 +89,8 @@ async function main() {
 app.use(cookieParser());
 app.use(session(sessionOpt));
 app.use(flash())
-
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true }))
 //passport
 app.use(passport.initialize());
 app.use(passport.session())
@@ -100,6 +102,7 @@ app.use(guestModeCart);
 app.use(async(req,res,next)=>{
   res.locals.success=req.flash("success");
   res.locals.errMsg=req.flash("error");
+
   res.locals.currentUser=req.user;
   if(req.cart){
     //console.log(req.cart)
@@ -120,7 +123,9 @@ app.use(async(req,res,next)=>{
 app.use("/",productRoute);
 app.use("/",userRoute);
 app.use("/",supplierRoute);
-app.use("/",cartRoute)
+app.use("/",cartRoute);
+app.use("/",checkoutRoute);
+
 
 
 app.all("*",(req,res,next)=>{

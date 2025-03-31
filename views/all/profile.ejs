@@ -9,7 +9,7 @@
         <!-- Profile Picture Section -->
         <div class="text-center mb-4">
             <div class="profile-pic-wrapper vector-placeholder">
-                <img src="<%= image.url %>" 
+                <img src="<%= user.image.url %>" 
                      class="profile-vector-img" 
                      alt="Profile Interface" style="width:100%;">
             </div>
@@ -21,7 +21,7 @@
 
         <!-- Edit Button -->
         <div class="d-grid mb-4">
-            <form action="/updateAccount/<%= _id %>" method="get">
+            <form action="/updateAccount/<%= user._id %>" method="get">
                 <button type="submit" class="btn btn-edit animate__animated animate__pulse animate__infinite" style="width: 100%;">
                     <i class="fas fa-edit me-2"></i>Edit Profile
                 </button>
@@ -47,8 +47,8 @@
                 <div class="card profile-card h-100 p-4">
                     <div class="row animate-fade-in">
                         <div class="col-md-12">
-                            <h2 class="mb-0"><%= firstname %> <%= lastname %></h2>
-                            <p class="text-muted"><%= role %></p>
+                            <h2 class="mb-0"><%= user.firstname %> <%= user.lastname %> </h2>
+                            <p class="text-muted"><%= user.role %></p>
                             <hr>
                             
                             <div class="row">
@@ -57,7 +57,7 @@
                                     <div class="contact-field">
                                         <div class="d-flex align-items-center">
                                             <i class="fas fa-user contact-icon"></i>
-                                            <span class="text-muted">Username: <%= username %></span>
+                                            <span class="text-muted">Username: <%= user.username %></span>
                                         </div>
                                         <hr class="contact-hr">
                                     </div>
@@ -65,7 +65,7 @@
                                     <div class="contact-field">
                                         <div class="d-flex align-items-center">
                                             <i class="fas fa-envelope contact-icon"></i>
-                                            <span class="text-muted">Email: <%= email %></span>
+                                            <span class="text-muted">Email: <%= user.email %></span>
                                         </div>
                                         <hr class="contact-hr">
                                     </div>
@@ -73,7 +73,7 @@
                                     <div class="contact-field">
                                         <div class="d-flex align-items-center">
                                             <i class="fas fa-phone contact-icon"></i>
-                                            <span class="text-muted">Phone: <%= phone %></span>
+                                            <span class="text-muted">Phone: <%= user.phone %></span>
                                         </div>
                                         <hr class="contact-hr">
                                     </div>
@@ -81,14 +81,14 @@
                                     <div class="contact-field">
                                         <div class="d-flex align-items-center">
                                             <i class="fas fa-map-marker-alt contact-icon"></i>
-                                            <span class="text-muted">Address: <%= address %></span>
+                                            <span class="text-muted">Address: <%= user.address %></span>
                                         </div>
                                         <hr class="contact-hr">
                                     </div>
                                     <div class="contact-field">
                                         <div class="d-flex align-items-center">
                                             <i class="fas fa-map-marker-alt contact-icon"></i>
-                                            <span class="text-muted">Country: <%= country %></span>
+                                            <span class="text-muted">Country: <%= user.country %></span>
                                         </div>
                                     </div>
                                 </div>

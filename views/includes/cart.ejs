@@ -176,20 +176,26 @@
                                 <p class="card-text price">Rs. <%= p.Details.price %></p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group quantity-btn">
-                                        <button class="btn btn-sm btn-secondary quantity-minus">-</button>
+                                        <form action="/cart/<%= p.Details._id %>/decrease/<%= cart._id %>" method="post">
+                                            <button class="btn btn-sm btn-secondary quantity-minus" type="submit">-</button>
+                                        </form>
+                                        
                                         <!-- <span class="px-3 quantity">1</span> -->
-                                         <input type="number" name="quantity" id="quantity" class="quantity p-0" value="1" style="width:30px;">
-                                        <button class="btn btn-sm btn-secondary quantity-plus">+</button>
+                                         <input type="number" name="quantity" id="quantity" class="quantity p-0" value="<%= p.ChoosenQuantity %>" style="width:30px;">
+                                        <form action="/cart/<%= p.Details._id %>/increase/<%= cart._id %>" method="post">
+                                            <button class="btn btn-sm btn-secondary quantity-plus" type="submit">+</button>
+                                        </form>
+                                         
                                     </div>
                                     <% if (currentUser) { %>
                                         <form action="/cart/<%= cart.user %>/delete/<%= p.Details._id %>?user=yes" method="post">
-                                            <button class="btn btn-danger btn-sm"><i class="bi bi-trash3-fill"></i>U Remove</button>
+                                            <button class="btn btn-danger btn-sm"><i class="bi bi-trash3-fill"></i>Remove</button>
                                         </form>
                                    
                                    <% } else { %>
                                     
                                     <form action="/cart/<%= cart.sessionId %>/delete/<%= p.Details._id %>?session=yes" method="post">
-                                        <button class="btn btn-danger btn-sm"><i class="bi bi-trash3-fill"></i>S Remove</button>
+                                        <button class="btn btn-danger btn-sm"><i class="bi bi-trash3-fill"></i>Remove</button>
                                     </form>
                                     <% } %>
                                 </div>
@@ -206,12 +212,15 @@
     </div>
 
     <!-- Total Section -->
+    <form action="/checkout?user=<%= cart.user?cart.user:cart.sessionId %>" method="get">
     <div class="total-section">
         <div class="d-flex justify-content-between align-items-center">
             <h5>Total:</h5>
-            <h5 id="totalAmount">Rs. 0.00</h5>
+            <input id="totalAmount" value="0" name="totalPrice" disabled>
         </div>
-        <button class="btn w-100 mt-2 checkout-btn">Checkout</button>
+ 
+        <button class="btn w-100 mt-2 checkout-btn" type="submit">Checkout</button>
+    </form>
     </div>
 </div>
 <script>
@@ -256,7 +265,7 @@
             total += price * quantity;
             totalItems += quantity;
         });
-        document.getElementById('totalAmount').textContent =` Rs. ${total.toFixed(2)}`;
+        document.getElementById('totalAmount').value =` Rs. ${total.toFixed(2)}`;
         return totalItems;
     }
 

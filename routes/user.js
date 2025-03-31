@@ -1,6 +1,7 @@
 const express=require("express");
 const app=express();
 const User=require("../models/users.js")
+const Cart=require("../models/cartSchema.js")
 const passport=require("passport");
 const passportLocal=require("passport-local");
 const passportLocalMongoose=require("passport-local-mongoose");
@@ -12,7 +13,7 @@ const OtpDb=require("../models/otpSchema.js")
 const tempDb=require("../models/tempSchema.js")
 const ExpressError=require("../utils/ExpressError.js")
 const asyncWrap=require("../utils/AsyncWrap.js")
-const {isLoggedIn, saveRedirectUrl}=require("../middleware.js")
+const {isLoggedIn, saveRedirectUrl,guestModeCart}=require("../middleware.js")
 const multer  = require('multer')
 const {cloudinary,storage}=require("../cloudConfig.js")
  const parser = multer({ storage: storage });
@@ -211,7 +212,17 @@ router.get("/login",saveRedirectUrl,(req,res)=>{
 router.post("/login",saveRedirectUrl,passport.authenticate("local",{failureRedirect:"/login",failureFlash:true}),async(req,res)=>{
     let {role}=req.query
     let redirectUrl=res.locals.redirectUrl;
+    
+    req.session.setCart = req.cart.product;
+    req.session.save(async (err) => {
+        if (err) {
+            console.error(" Session save error:", err);
+        }
+    let sessionCart=await Cart.findByIdAndUpdate(req.cart._id,{})
+    sessionCart.product=[]
+    await sessionCart.save()
     if(redirectUrl){
+      
         req.flash("success","Welcome back to UrbanHarvest");
         res.redirect(redirectUrl)
     }
@@ -228,7 +239,7 @@ router.post("/login",saveRedirectUrl,passport.authenticate("local",{failureRedir
         else{
         res.redirect("/product")
     }
-    }
+    }})
 
 })
 
@@ -333,7 +344,9 @@ router.get("/resetPassword/:token",(req,res)=>{
 
 
     //Account Details ------------------------------------------>
-    router.get("/accountDetails/:id",isLoggedIn,asyncWrap(async(req,res)=>{
+    router.get("/accountDetails/:id",isLoggedIn,guestModeCart,asyncWrap(async(req,res)=>{
+        let cart=res.locals.cart
+        console.log("..",res.locals.cart)
         let {id}=req.params;
         let user=await User.findById(id);
         console.log(user);
@@ -341,7 +354,7 @@ router.get("/resetPassword/:token",(req,res)=>{
             res.render("all/supplierProfile.ejs",user)
         }
         else{
-            res.render("all/profile.ejs",user)
+            res.render("all/profile.ejs",{user,cart})
         }
      
     }))

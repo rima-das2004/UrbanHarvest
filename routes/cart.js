@@ -13,6 +13,7 @@ app.use(express.urlencoded({extended:true}));
 
 
 router.post("/cart/:prodId/add",guestModeCart,saveRedirectUrl,async(req,res)=>{
+    let redirectUrl=res.locals.urlSave
     let {prodId}=req.params;
     console.log(prodId)
     let {quantity=1,totalPrice}=req.body;
@@ -39,17 +40,35 @@ router.post("/cart/:prodId/add",guestModeCart,saveRedirectUrl,async(req,res)=>{
                         }
                         let cartUpdate=await Cart.findByIdAndUpdate(cart[0]._id,{});
                         if(flag==true){
-        
+                            await Cart.findOneAndUpdate(
+                                {
+                                    _id: req.cart._id,
+                                    "product.Details": prodId  // Check if product exists
+                                },
+                                {
+                                    $inc: { "product.$.ChoosenQuantity": 1 }  // Increase quantity
+                                },)
                             //await cartUpdate.save()
-                            req.flash("success","already added");
-                            res.redirect("/product/all");
+                            req.flash("success","quantity increased");
+                            if(redirectUrl){
+                                res.redirect(redirectUrl)
+                            }
+                            else{
+                                res.redirect("/product/all");
+                            }
+                          
                           
                         }
                         else{
                             cartUpdate.product.push({Details:prodId,quantity:quantity});
                             await cartUpdate.save()
                             req.flash("success","added succesfully");
-                           res.redirect("/product/all");
+                            if(redirectUrl){
+                                res.redirect(redirectUrl)
+                            }
+                            else{
+                                res.redirect("/product/all");
+                            }
                         }
 
                     }
@@ -58,7 +77,12 @@ router.post("/cart/:prodId/add",guestModeCart,saveRedirectUrl,async(req,res)=>{
                         cartUpdate.product.push({Details:prodId,quantity:quantity});
                             await cartUpdate.save()
                             req.flash("success",`Dear,${req.user.firstname}! Your cart is added succesfully`)
-                           res.redirect("/product/all")
+                            if(redirectUrl){
+                                res.redirect(redirectUrl)
+                            }
+                            else{
+                                res.redirect("/product/all");
+                            }
                     }
                 
 
@@ -97,8 +121,33 @@ router.post("/cart/:prodId/add",guestModeCart,saveRedirectUrl,async(req,res)=>{
          
             if(flag===true){
                 console.log("in true",flag)
-                req.flash("success","already added")
-                res.redirect("/product/all")
+                
+                await Cart.findOneAndUpdate(
+                                        {
+                                            _id: req.cart._id,
+                                            "product.Details": prodId  // Check if product exists
+                                        },
+                                        {
+                                            $inc: { "product.$.ChoosenQuantity": 1 }  // Increase quantity
+                                        },)
+                    // console.log(cartUpdate);
+                    // for (let productDetails of cartUpdate.product){
+                    //     if(productDetails.Details==prodId){
+                    //       let count=productDetails.ChoosenQuantity
+                    //         productDetails.ChoosenQuantity=count+1
+                    //         console.log("done")
+                    //     }
+                    // }
+                    console.log("done")
+                   
+                req.flash("success","quantity increased");
+                
+                if(redirectUrl){
+                    res.redirect(redirectUrl)
+                }
+                else{
+                    res.redirect("/product/all");
+                }
             
         }
         else if(flag===false){
@@ -108,7 +157,12 @@ router.post("/cart/:prodId/add",guestModeCart,saveRedirectUrl,async(req,res)=>{
             cartUpdate.product.push({Details:prodId,quantity:quantity});
             await cartUpdate.save()
             req.flash("success","added successfully")
-            res.redirect("/product/all")
+            if(redirectUrl){
+                res.redirect(redirectUrl)
+            }
+            else{
+                res.redirect("/product/all");
+            }
         }
         
             }
@@ -121,7 +175,12 @@ router.post("/cart/:prodId/add",guestModeCart,saveRedirectUrl,async(req,res)=>{
             cartUpdate.product.push({Details:prodId,quantity:quantity});
             await cartUpdate.save()
             req.flash("success","added successfully")
-            res.redirect("/product/all")
+            if(redirectUrl){
+                res.redirect(redirectUrl)
+            }
+            else{
+                res.redirect("/product/all");
+            }
             
         }
     }
@@ -130,9 +189,84 @@ router.post("/cart/:prodId/add",guestModeCart,saveRedirectUrl,async(req,res)=>{
    
 })
 
+router.post("/cart/:prodId/increase/:cartId",saveRedirectUrl,async (req,res)=>{
+    let redirectUrl=res.locals.urlSave
+    let{prodId,cartId}=req.params
+    console.log("inc---",prodId,cartId)
+    let increment=await Cart.findOneAndUpdate(
+        {
+            _id: cartId,
+            "product.Details": prodId  // Check if product exists
+        },
+        {
+            $inc: { "product.$.ChoosenQuantity": 1 }  // Increase quantity
+        },);
+        
+    if(redirectUrl){
+        if(increment){
+            console.log("increase")
+            req.flash("Increased Quantity")
+        }
+        else{
+            console.log(increment)
+            req.flash("Can not be increased")
+        }
+        console.log(redirectUrl)
+         res.redirect(redirectUrl)
+    }
+    else{
+        if(increment){
+            console.log("increase")
+            req.flash("Increased Quantity")
+        }
+        else{
+            console.log(increment)
+            req.flash("Can not be increased")
+        }
+        res.redirect("/product")
+    }
 
+})
+router.post("/cart/:prodId/decrease/:cartId",saveRedirectUrl,async (req,res)=>{
+    let redirectUrl=res.locals.urlSave
+    let{prodId,cartId}=req.params
+    console.log("dec--",prodId,cartId)
+    let decrement=await Cart.findOneAndUpdate(
+        { _id: cartId },
+        {
+            $inc: { "product.$[item].ChoosenQuantity": -1 }
+        },
+        {
+            arrayFilters: [{ "item.Details": prodId, "item.ChoosenQuantity": { $gt: 1 } }],
+            new: true
+        })
+      
+    if(redirectUrl){
+        if(decrement){
+            req.flash("Decreased Quantity")
+        }
+        else{
+            req.flash("Can not be decreased")
+        }
+        console.log(redirectUrl)
+         res.redirect(redirectUrl)
+    }
+    else{
+        if(decrement){
+            req.flash("Decreased Quantity")
+        }
+        else{
+            req.flash("Can not be decreased")
+        }
+        res.redirect("/product")
+    }
+    
+   
+
+})
 // router.post("/checkout/:userId",isLoggedIn)
-router.post("/cart/:id/delete/:prodId",guestModeCart, async (req, res) => {
+router.post("/cart/:id/delete/:prodId",guestModeCart,saveRedirectUrl, async (req, res) => {
+    let redirectUrl=res.locals.urlSave
     const { id, prodId } = req.params; // id can be userId or sessionId
     let {user,session}=req.query
     let cart=await Cart.find({});
@@ -180,11 +314,21 @@ router.post("/cart/:id/delete/:prodId",guestModeCart, async (req, res) => {
         //     req.flash("error", "Cart not found.");
         // }
 
-        res.redirect("/product/all");
+        if(redirectUrl){
+            res.redirect(redirectUrl)
+        }
+        else{
+            res.redirect("/product/all");
+        }
     } catch (error) {
         console.error(error);
         req.flash("error", "An error occurred while trying to delete the product.");
-        res.redirect("/product/all");
+        if(redirectUrl){
+            res.redirect(redirectUrl)
+        }
+        else{
+            res.redirect("/product/all");
+        }
     }
 });
 

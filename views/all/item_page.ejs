@@ -46,8 +46,16 @@
                     <label for="quantity" class="form-label">Quantity:</label>
                     <input type="number" class="form-control" id="quantity" value="1" min="1" style="width: 80px;">
                 </div>
-                <button class="btn btn-primary cart-btn"><i class="fa-solid fa-cart-shopping cart"></i>Add to Cart</button>
-                <button class="btn btn-success order-btn"><i class="fas fa-check order"></i>Order Now</button>
+                <div class="row d-flex">
+                  <form action="/cart/<%= product._id %>/add" method="post" style="width: fit-content;">
+                    <button class="btn btn-primary cart-btn" type="submit"><i class="fa-solid fa-cart-shopping cart"></i>Add to Cart</button>
+                  </form>
+                  <form action="/product" method="get" style="width: fit-content;">
+                    <button class="btn btn-success order-btn"><i class="fas fa-check order"></i>Order Now</button>
+                  </form>
+                </div>
+                
+                
             </div>
         </div>
         <div class="container text-center mt-3 mb-4">

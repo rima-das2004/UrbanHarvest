@@ -14,17 +14,19 @@ const methodOverride=require("method-override");
 
 
 router.get("/product",guestModeCart,async(req,res)=>{
+  req.session.urlSaveAll=req.originalUrl;
   let products= await Product.find({})
-  console.log(products)
+  //console.log(products)
     res.render("all/index.ejs",{products:products});
   });
 
 router.get("/product/all",async(req,res)=>{
+  req.session.urlSaveAll=req.originalUrl;
   let products= await Product.find({});
   let catArr=[]
   let greaterPrice=0;
   let {categorySelectionUser}=req.query
-  console.log(categorySelectionUser)
+  //console.log(categorySelectionUser)
     for (let product of products){
     
      
@@ -49,15 +51,16 @@ router.get("/product/all",async(req,res)=>{
       
     }
 
-    console.log(catArr)
+    //console.log(catArr)
     
   res.render("all/allproduct.ejs",{products:products, categorySelection:catArr, greaterPrice:greaterPrice, categorySelectionUser:categorySelectionUser})
 })
 
 router.get("/product/details/:productId",async (req,res)=>{
+  req.session.urlSaveAll=req.originalUrl;
   let product=await Product.find({_id:req.params.productId});
   product=product[0]
-  console.log("jiji",product)
+  //console.log("jiji",product)
 
   let products= await Product.find({});
   let catArr=[]

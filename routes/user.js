@@ -360,10 +360,11 @@ router.get("/resetPassword/:token",(req,res)=>{
     }))
 
     router.get("/updateAccount/:id",isLoggedIn,asyncWrap(async (req,res)=>{
+        let cart=res.locals.cart
         let {id}=req.params;
         let user=await User.findById(id)
         console.log(user);
-        res.render("all/profileEdit.ejs",user)
+        res.render("all/profileEdit.ejs",{user,cart})
     }))
     router.put("/updateAccount/:id",parser.single("image"),isLoggedIn,asyncWrap(async (req,res)=>{
         console.log("in u acc")

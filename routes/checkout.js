@@ -58,7 +58,7 @@ router.get("/checkout",isLoggedIn,(asyncWrap(async(req,res)=>{
                         req.cart=Newcart
                         res.locals.cart=req.cart
                     //console.log(cart); 
-                    res.render("all/checkout.ejs",{cartProduct:Newcart.product}) 
+                    res.render("all/checkPay.ejs",{cartProduct:Newcart.product}) 
                 }
                 
             }

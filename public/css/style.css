@@ -760,7 +760,8 @@ body{
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     background: linear-gradient(135deg, #dd2476 0%, #ff512f 100%);
   }
-  /* CSS for Sign Up container */
+  
+/* CSS for Sign Up container */
   @media (max-width: 767px) {
     .signup-container {
       position: relative;

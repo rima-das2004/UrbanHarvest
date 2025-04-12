@@ -1,4 +1,4 @@
-
+/* Navbar */
 .navbar-brand{
     padding: 3rem 11rem 1rem 0rem;
 }
@@ -63,12 +63,43 @@
 }
 /* Slider responsiveness */
 /* Responsive Styles */
+@media (max-width: 1600px) {
+  .btns{
+    display: none;
+  }
+}
+@media (max-width: 1496px) {
+  .btns{
+    display: none;
+  }
+}
+
+@media (max-width: 1024px) { /* Tablet */
+  .text {
+    left: 50px;
+    top: 40px;
+  }
+  .text h1 {
+    font-size: 2rem;
+  }
+  .text p {
+    font-size: 1.1rem;
+  }
+  .imgSlide img {
+    width: 100% !important;
+  }
+  .btns{
+    display: block;
+  }
+}
+
+
 @media (max-width: 992px) { /* Tablet */
     .text {
       left: 50px;
       top: 40px;
     }
-    .text h2 {
+    .text h1 {
       font-size: 2rem;
     }
     .text p {
@@ -79,13 +110,29 @@
     }
   }
   
+  @media (max-width: 789px) { /* Small Tablet */
+    .text {
+      left: 30px;
+      top: 30px;
+    }
+    .text h1 {
+      font-size: 1.15rem;
+    }
+    .line, .line-black {
+      width: 300px !important;
+    }
+  }
+
   @media (max-width: 768px) { /* Small Tablet */
     .text {
       left: 30px;
       top: 30px;
     }
-    .text h2 {
-      font-size: 1.5rem;
+    .text h1 {
+      font-size: 1.15rem;
+    }
+    .line, .line-black {
+      width: 300px !important;
     }
     .line, .line-black {
       width: 300px !important;
@@ -102,7 +149,7 @@
       padding: 0 15px;
       text-align: center;
     }
-    .text h2 {
+    .text h1 {
       font-size: 2rem;
     }
     .line, .line-black {
@@ -250,9 +297,6 @@
   .btnPrimary:active {
     transform: translateY(1px) scale(0.98);
   }
-
-
-
 
 
 

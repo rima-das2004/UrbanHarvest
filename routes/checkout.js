@@ -14,11 +14,17 @@ const {cloudinary,storage}=require("../cloudConfig.js")
 const methodOverride=require("method-override");
 
 router.get("/checkout",isLoggedIn,(asyncWrap(async(req,res)=>{
-    let redirectUrl=res.locals.redirectUrl
+    let redirectUrl=res.locals.redirectUrl;
+    let user=await User.findById(req.user)
         // Retrieve cart from session
+        console.log(req.user)
+        console.log("current cart",req.cart._id)
+        let cartUser=await Cart.find({user:req.user._id});
+       // console.log("current user cart",cartUser)
         const cartProduct = req.session.setCart || [];
 
-        if (cartProduct.length > 0) {
+        if (cartProduct.length > 0 ) {
+            
             console.log("Cart retrieved in checkout:", cartProduct);
             const cartItems = cartProduct.map(item => ({
                 Details: item.Details._id,  // Extract the ID from Details
@@ -58,14 +64,30 @@ router.get("/checkout",isLoggedIn,(asyncWrap(async(req,res)=>{
                         req.cart=Newcart
                         res.locals.cart=req.cart
                     //console.log(cart); 
-                    res.render("all/checkout.ejs",{cartProduct:Newcart.product}) 
+                    console.log("done")
+                    res.render("all/checkPay.ejs",{cartProduct:Newcart.product,user:user}) 
                 }
                 
             }
             else{
+                console.log("done1")
+                res.redirect("/product");
+                
+            }
+        }
+        else if(req.user && cartUser){
+            if(cartUser[0].product.length>0){
+                
+                res.render("all/checkPay.ejs",{product:cartUser.product,user:user})
+            }
+            else{
+                req.flash("error","You must select product to checkout")
                 res.redirect("/product")
             }
-        } else {
+
+        }
+        else {
+            console.log("done2")
             console.log(" No cart found in session");
             res.redirect("/product")
             

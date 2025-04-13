@@ -12,6 +12,8 @@ const multer  = require('multer')
 const {cloudinary,storage}=require("../cloudConfig.js")
  const parser = multer({ storage: storage });
 const methodOverride=require("method-override");
+require('dotenv').config();
+
 
 router.get("/checkout",isLoggedIn,(asyncWrap(async(req,res)=>{
     let redirectUrl=res.locals.redirectUrl;

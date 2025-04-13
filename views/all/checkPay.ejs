@@ -144,29 +144,27 @@
               (position) => {
                 const lat = position.coords.latitude;
                 const lng = position.coords.longitude;
-                console.log("New Location:", lat, lng);
-                fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${api}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                const address = data.results[0].formatted_address;
-                console.log("Address:", address);
-                const formatAddress=document.getElementById("formataddress");
-                const pincode=document.getElementById("address2");
-                formatAddress.value=address;
-                const pinData=data.results[0].address_components;
-                let pin;
-                for(let i of pinData){
-                 if(i.types[0]=='postal_code'){
-                    pin=i.long_name
-                 }
-                }
-                console.log(pin)
-                pincode.value=pin;
-
-            });
-              },
-              (error) => {
+                fetch(`/checkout/geocode?lat=${lat}&lng=${lng}`)
+  .then(res => res.json())
+  .then(data => {
+    console.log(data);
+    console.log(data)
+    const address = data.results[0].formatted_address;
+    console.log("Address:", address);
+    const formatAddress=document.getElementById("formataddress");
+    const pincode=document.getElementById("address2");
+    formatAddress.value=address;
+    const pinData=data.results[0].address_components;
+    let pin;
+    for(let i of pinData){
+     if(i.types[0]=='postal_code'){
+        pin=i.long_name
+     }
+    }
+    console.log(pin)
+    pincode.value=pin;
+  }); },
+        (error) => {
                 console.error("Error getting location:", error);
               }
             );

@@ -99,4 +99,21 @@ router.get("/checkout",isLoggedIn,(asyncWrap(async(req,res)=>{
 
 })))
 
+const axios = require('axios');
+
+router.get('/checkout/geocode', async (req, res) => {
+  const { lat, lng } = req.query;
+  try {
+    const response = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+      params: {
+        latlng: `${lat},${lng}`,
+        key: process.env.MAP_API
+      }
+    });
+    res.json(response.data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports=router

@@ -135,7 +135,9 @@
 </div>
 
     <script>
-        const api='<%= process.env.MAP_API %>'
+        
+        const api = '<%= mapApiKey %>';
+
         //console.log(api)
         const getLocation = () => {
             navigator.geolocation.getCurrentPosition(

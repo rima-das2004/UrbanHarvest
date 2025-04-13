@@ -64,7 +64,7 @@ router.get("/checkout",isLoggedIn,(asyncWrap(async(req,res)=>{
                         req.cart=Newcart
                         res.locals.cart=req.cart
                     //console.log(cart); 
-                    res.render("all/checkPay.ejs",{cartProduct:Newcart.product}) 
+                    res.render("all/checkPay.ejs",{cartProduct:Newcart.product,mapApiKey:process.env.MAP_API}) 
                 }
                 
             }
@@ -77,7 +77,7 @@ router.get("/checkout",isLoggedIn,(asyncWrap(async(req,res)=>{
         else if(req.user && cartUser){
             if(cartUser[0].product.length>0){
                 
-                res.render("all/checkPay.ejs",{product:cartUser.product,user:user})
+                res.render("all/checkPay.ejs",{product:cartUser.product,user:user,mapApiKey:process.env.MAP_API})
             }
             else{
                 req.flash("error","You must select product to checkout")

@@ -37,6 +37,17 @@ const mongoStore=require("connect-mongo")
 const ExpressError=require("./utils/ExpressError.js")
 const asyncWarp=require("./utils/AsyncWrap.js")
 const DbUrl=process.env.ATLAS_URL
+
+main().then(()=>{
+    console.log("Connected to DB");
+})
+.catch((err)=>{
+    console.log(err)
+})
+async function main() {
+    await mongoose.connect(DbUrl);
+    // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
+  }
 const store=mongoStore.create({
 
   mongoUrl:DbUrl,
@@ -60,16 +71,6 @@ const sessionOpt={
     }
   }
 
-main().then(()=>{
-    console.log("Connected to DB");
-})
-.catch((err)=>{
-    console.log(err)
-})
-async function main() {
-    await mongoose.connect(DbUrl);
-    // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
-  }
 app.listen(port,()=>{
     console.log("app is listening at port of ",port)
 })

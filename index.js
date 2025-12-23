@@ -38,42 +38,42 @@ const ExpressError=require("./utils/ExpressError.js")
 const asyncWarp=require("./utils/AsyncWrap.js")
 const DbUrl=process.env.ATLAS_URL
 
-main().then(()=>{
-    console.log("Connected to DB");
-})
-.catch((err)=>{
-    console.log(err)
-})
-async function main() {
-    await mongoose.connect(DbUrl);
-    // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
-  }
-const store=mongoStore.create({
+// main().then(()=>{
+//     console.log("Connected to DB");
+// })
+// .catch((err)=>{
+//     console.log(err)
+// })
+// async function main() {
+//     await mongoose.connect(DbUrl);
+//     // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
+//   }
+// const store=mongoStore.create({
 
-  mongoUrl:DbUrl,
-  crypto:{
-    secret:process.env.SECRET
-  },
-  touchAfter:24*3600
-});
-store.on("error",()=>{
-  console.log("ERROR IN MINGI STORE SESSION")
-})
-const sessionOpt={
-  store,
-    secret:process.env.SECRET,
-    resave:false,
-    saveUninitialized:true,
-    cookie:{
-      expires:Date.now()+7*24*60*60*1000,
-      httpOnly:true,
-      maxAge:7*24*60*60*1000
-    }
-  }
+//   mongoUrl:DbUrl,
+//   crypto:{
+//     secret:process.env.SECRET
+//   },
+//   touchAfter:24*3600
+// });
+// store.on("error",()=>{
+//   console.log("ERROR IN MINGI STORE SESSION")
+// })
+// const sessionOpt={
+//   store,
+//     secret:process.env.SECRET,
+//     resave:false,
+//     saveUninitialized:true,
+//     cookie:{
+//       expires:Date.now()+7*24*60*60*1000,
+//       httpOnly:true,
+//       maxAge:7*24*60*60*1000
+//     }
+//   }
 
-app.listen(port,()=>{
-    console.log("app is listening at port of ",port)
-})
+// app.listen(port,()=>{
+//     console.log("app is listening at port of ",port)
+// })
 
 // async function main() {
 //     await mongoose.connect('mongodb://127.0.0.1:27017/UrbanHarvest');
@@ -85,11 +85,57 @@ app.listen(port,()=>{
 // .catch((err)=>{
 //     console.log(err)
 // })
+//const DbUrl = process.env.ATLAS_URL;
+
+if (!DbUrl || !process.env.SECRET) {
+  throw new Error("ATLAS_URL or SECRET is missing");
+}
+
+mongoose.set("bufferCommands", false);
+
+async function startServer() {
+  try {
+    await mongoose.connect(DbUrl);
+    console.log("Connected to DB");
+
+    const store = mongoStore.create({
+      mongoUrl: DbUrl,
+      collectionName: "sessions",
+      crypto: {
+        secret: process.env.SECRET,
+      },
+    });
+
+    const sessionOpt = {
+      store,
+      secret: process.env.SECRET,
+      resave: false,
+      saveUninitialized: true,
+      cookie: {
+        httpOnly: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      },
+    };
+
+    // ✅ MIDDLEWARES THAT DEPEND ON SESSION
+    app.use(cookieParser());
+    app.use(session(sessionOpt));
+    app.use(flash());
+
+    app.listen(port, () => {
+      console.log("app is listening at port", port);
+    });
+
+  } catch (err) {
+    console.error("Startup failed:", err);
+    process.exit(1);
+  }
+}
 
 
-app.use(cookieParser());
-app.use(session(sessionOpt));
-app.use(flash())
+startServer();
+
+
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }))
 //passport

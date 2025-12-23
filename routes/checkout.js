@@ -103,7 +103,7 @@ const axios = require('axios');
 
 router.get('/checkout/geocode', async (req, res) => {
   const { lat, lng } = req.query;
-  try {
+  try { 
     const response = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
       params: {
         latlng: `${lat},${lng}`,

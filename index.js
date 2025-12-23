@@ -60,7 +60,16 @@ const sessionOpt={
     }
   }
 
-
+main().then(()=>{
+    console.log("Connected to DB");
+})
+.catch((err)=>{
+    console.log(err)
+})
+async function main() {
+    await mongoose.connect(DbUrl);
+    // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
+  }
 app.listen(port,()=>{
     console.log("app is listening at port of ",port)
 })
@@ -76,16 +85,7 @@ app.listen(port,()=>{
 //     console.log(err)
 // })
 
-main().then(()=>{
-    console.log("Connected to DB");
-})
-.catch((err)=>{
-    console.log(err)
-})
-async function main() {
-    await mongoose.connect(DbUrl);
-    // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
-  }
+
 app.use(cookieParser());
 app.use(session(sessionOpt));
 app.use(flash())

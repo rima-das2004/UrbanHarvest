@@ -102,10 +102,7 @@ async function startServer() {
 
     const store = mongoStore.create({
       mongoUrl: DbUrl,
-      collectionName: "sessions",
-      crypto: {
-        secret: process.env.SECRET,
-      },
+      
     });
 
     const sessionOpt = {

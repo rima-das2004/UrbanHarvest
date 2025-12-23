@@ -122,7 +122,16 @@ async function startServer() {
     app.use(session(sessionOpt));
     app.use(flash());
 
-    app.listen(port, () => {
+    app.use(passport.initialize());
+    app.use(passport.session())
+
+
+    passport.use(new passportLocal(User.authenticate()));
+    passport.serializeUser(User.serializeUser());
+    passport.deserializeUser(User.deserializeUser());
+    app.use(guestModeCart);
+    
+      app.listen(port, () => {
       console.log("app is listening at port", port);
     });
 
@@ -139,12 +148,8 @@ startServer();
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }))
 //passport
-app.use(passport.initialize());
-app.use(passport.session())
-passport.use(new passportLocal(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-app.use(guestModeCart);
+
+
 
 app.use(async(req,res,next)=>{
   res.locals.success=req.flash("success");
